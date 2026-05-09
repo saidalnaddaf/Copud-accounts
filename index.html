@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CUPOD — Student Registration</title>
+  <meta name="description" content="Register a new CUPOD student. Internal advisor tool." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- BACKGROUND -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo">CUPOD</div>
+    <div class="nav-tag">Advisor Portal</div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="container">
+
+    <header class="hero reveal">
+      <span class="badge">NEW STUDENT REGISTRATION</span>
+      <h1>Add a new <em>CUPOD</em><br/>student.</h1>
+      <p class="hero-sub">Fill in the student's details below. The student ID is generated automatically and the record is saved instantly to the master sheet.</p>
+    </header>
+
+    <!-- FORM CARD -->
+    <section class="card reveal">
+      <form id="registrationForm" novalidate>
+
+        <!-- SECTION: Personal -->
+        <div class="form-section">
+          <h2 class="section-title"><span class="section-num">01</span>Personal Info</h2>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="studentName">Student Name <span class="req">*</span></label>
+              <input type="text" id="studentName" name="studentName" required maxlength="80" autocomplete="name" placeholder="e.g. Sara Kaddoura" />
+              <div class="error-msg" id="err-studentName"></div>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone <span class="req">*</span></label>
+              <input type="tel" id="phone" name="phone" required maxlength="30" autocomplete="tel" placeholder="+961 70 000 000" />
+              <div class="error-msg" id="err-phone"></div>
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" maxlength="120" autocomplete="email" placeholder="student@example.com" />
+              <div class="error-msg" id="err-email"></div>
+            </div>
+
+            <div class="field">
+              <label for="enrollDate">Enrollment Date <span class="req">*</span></label>
+              <input type="date" id="enrollDate" name="enrollDate" required />
+              <div class="error-msg" id="err-enrollDate"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION: Course -->
+        <div class="form-section">
+          <h2 class="section-title"><span class="section-num">02</span>Course & Payment</h2>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="coursePrice">Course Price (USD) <span class="req">*</span></label>
+              <input type="number" id="coursePrice" name="coursePrice" required min="0" max="10000" step="1" value="350" />
+              <div class="error-msg" id="err-coursePrice"></div>
+            </div>
+
+            <div class="field">
+              <label for="firstPayment">First Payment (USD)</label>
+              <input type="number" id="firstPayment" name="firstPayment" min="0" max="10000" step="1" value="0" />
+              <div class="error-msg" id="err-firstPayment"></div>
+              <div class="field-hint">Leave 0 if the student hasn't paid yet.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIVE PREVIEW -->
+        <div class="preview-box" id="previewBox">
+          <div class="preview-header">
+            <span class="preview-label">PREVIEW</span>
+            <span class="preview-id" id="previewId">CU-XXXXX</span>
+          </div>
+          <div class="preview-grid">
+            <div><span class="pk">Total:</span> <span class="pv" id="pvTotal">$0.00</span></div>
+            <div><span class="pk">Paid:</span> <span class="pv" id="pvPaid">$0.00</span></div>
+            <div><span class="pk">Balance:</span> <span class="pv" id="pvBalance">$0.00</span></div>
+            <div><span class="pk">Access ends:</span> <span class="pv" id="pvAccess">—</span></div>
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+          <button type="reset" class="btn btn-ghost" id="resetBtn">Clear form</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            <span class="btn-label">Save student</span>
+            <span class="spinner" aria-hidden="true"></span>
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer reveal">
+      <div>CUPOD · Online English Communication Academy</div>
+      <div class="footer-link"><a href="#" id="viewSheetLink" target="_blank" rel="noopener">Open master sheet ↗</a></div>
+    </footer>
+  </main>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <div class="toast-icon" id="toastIcon">✓</div>
+    <div class="toast-body">
+      <div class="toast-title" id="toastTitle">Saved!</div>
+      <div class="toast-msg" id="toastMsg">Student added to the master sheet.</div>
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="modal" id="successModal" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <div class="modal-check">✓</div>
+      <h3>Student saved successfully!</h3>
+      <div class="modal-details" id="modalDetails"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="addAnotherBtn">Add another student</button>
+        <button class="btn btn-primary" id="modalCloseBtn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
