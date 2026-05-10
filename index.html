@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CUPOD — Student Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1DB954;--green-light:#24e066;
+  --black:#0a0a0a;--dark:#111;--dark2:#1a1a1a;--dark3:#232323;
+  --line:rgba(255,255,255,0.08);--line2:rgba(255,255,255,0.15);
+  --white:#f5f5f0;--gray1:#c9c9c4;--gray2:#888;--gray3:#555;
+  --red:#ff5a5a;--radius:12px;--radius-lg:18px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',system-ui,sans-serif;font-size:16px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.18}
+.o1{width:500px;height:500px;background:var(--green);top:-150px;right:-150px;animation:f1 22s ease-in-out infinite}
+.o2{width:400px;height:400px;background:#1a8c3f;bottom:-120px;left:-120px;animation:f2 26s ease-in-out infinite}
+@keyframes f1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,40px)}}
+@keyframes f2{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,-30px)}}
+nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid var(--line);background:rgba(10,10,10,.7);backdrop-filter:blur(12px)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--green)}
+.nav-tag{font-size:11px;font-weight:700;letter-spacing:.18em;color:var(--gray2);text-transform:uppercase}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 24px 80px}
+.hero{margin-bottom:40px}
+.badge{display:inline-block;background:var(--green);color:var(--black);font-size:10px;font-weight:900;letter-spacing:.18em;padding:6px 14px;border-radius:4px;margin-bottom:20px}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,88px);line-height:.95;margin-bottom:16px}
+h1 em{color:var(--green);font-style:normal}
+.hero-sub{color:var(--gray1);font-size:17px;font-weight:300;max-width:520px;line-height:1.65}
+.card{background:var(--dark2);border:1px solid var(--line);border-radius:var(--radius-lg);padding:40px;box-shadow:0 24px 80px -24px rgba(0,0,0,.5)}
+.fsec{margin-bottom:32px}
+.stitle{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gray1);text-transform:uppercase;display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.snum{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:rgba(29,185,84,.12);color:var(--green);border:1px solid rgba(29,185,84,.3);border-radius:8px;font-size:11px;font-weight:900;font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 20px}
+.field{display:flex;flex-direction:column;gap:6px}
+label{font-size:13px;font-weight:500;color:var(--gray1)}
+.req{color:var(--green);margin-left:2px}
+input{background:var(--dark3);border:1px solid var(--line);border-radius:var(--radius);padding:13px 16px;color:var(--white);font-family:inherit;font-size:15px;outline:none;width:100%;transition:border-color .2s,box-shadow .2s}
+input::placeholder{color:var(--gray3)}
+input:focus{border-color:var(--green);background:var(--black);box-shadow:0 0 0 3px rgba(29,185,84,.12)}
+input.bad{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,90,90,.1)}
+input::-webkit-calendar-picker-indicator{filter:invert(1) brightness(.8);cursor:pointer}
+.hint{font-size:12px;color:var(--gray3);margin-top:2px}
+.err{font-size:12px;color:var(--red);min-height:0;max-height:0;overflow:hidden;transition:max-height .25s,margin .2s}
+.err.on{max-height:28px;margin-top:2px}
+.preview{background:linear-gradient(135deg,rgba(29,185,84,.07),rgba(29,185,84,.02));border:1px solid rgba(29,185,84,.2);border-radius:var(--radius);padding:18px 22px;margin:24px 0 28px}
+.prev-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.prev-lbl{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--gray2);text-transform:uppercase}
+.prev-id{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--green)}
+.prev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 20px}
+.pk{font-size:12px;color:var(--gray2);margin-right:4px}
+.pv{font-size:14px;font-weight:700;color:var(--white)}
+.actions{display:flex;justify-content:flex-end;gap:12px;margin-top:24px}
+.btn{font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.04em;padding:14px 28px;border-radius:var(--radius);cursor:pointer;border:none;transition:transform .12s,background .2s,opacity .2s;display:inline-flex;align-items:center;gap:8px}
+.btn:disabled{cursor:not-allowed;opacity:.7}
+.btn-p{background:var(--green);color:var(--black)}
+.btn-p:hover:not(:disabled){background:var(--green-light);transform:translateY(-1px)}
+.btn-g{background:transparent;color:var(--gray1);border:1px solid var(--line2)}
+.btn-g:hover{background:var(--dark3);color:var(--white)}
+.spin{display:none;width:14px;height:14px;border:2px solid rgba(0,0,0,.2);border-top-color:#000;border-radius:50%;animation:spin .8s linear infinite}
+.btn.loading .spin{display:inline-block}
+.btn.loading .lbl{opacity:.7}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* DEBUG BOX — shows exactly what was sent and received */
+.debug{background:rgba(255,200,0,.06);border:1px solid rgba(255,200,0,.25);border-radius:10px;padding:14px 16px;margin-top:16px;font-size:12px;color:#ffd060;line-height:1.85;font-family:monospace;white-space:pre-wrap;word-break:break-all;display:none}
+.debug.show{display:block}
+.debug-title{font-size:11px;font-weight:700;letter-spacing:.14em;color:#ffd060;text-transform:uppercase;margin-bottom:8px}
+
+footer{margin-top:36px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--gray2)}
+footer a{color:var(--green);text-decoration:none;font-weight:500}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(120%);background:var(--dark2);border:1px solid var(--line2);border-radius:var(--radius);box-shadow:0 16px 60px rgba(0,0,0,.5);padding:14px 20px 14px 16px;display:flex;gap:14px;align-items:center;min-width:280px;z-index:1000;transition:transform .35s cubic-bezier(.2,.9,.3,1.2),opacity .25s;opacity:0}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.et{border-color:rgba(255,90,90,.4)}
+.t-icon{width:30px;height:30px;background:var(--green);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;font-size:15px}
+.toast.et .t-icon{background:var(--red);color:#fff}
+.t-title{font-weight:700;font-size:14px}
+.t-msg{font-size:13px;color:var(--gray1)}
+.modal{position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;padding:24px}
+.modal.show{display:flex;animation:mfade .3s ease}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+.mbg{position:absolute;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px)}
+.mcard{position:relative;background:var(--dark2);border:1px solid var(--line2);border-radius:var(--radius-lg);padding:40px;max-width:460px;width:100%;text-align:center;animation:mpop .35s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes mpop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.mcheck{width:72px;height:72px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:#000;font-size:36px;font-weight:900;animation:cpop .5s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes cpop{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.mcard h3{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;margin-bottom:16px}
+.mdetails{background:var(--dark3);border-radius:var(--radius);padding:16px;margin-bottom:24px;text-align:left;font-size:14px;line-height:1.9;color:var(--gray1)}
+.mdetails strong{color:var(--white)}
+.mid{color:var(--green);font-weight:700;font-size:16px}
+.mactions{display:flex;gap:10px;justify-content:center}
+.rev{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.rev.vis{opacity:1;transform:none}
+@media(max-width:700px){
+  nav{padding:14px 18px}
+  .wrap{padding:36px 16px 60px}
+  .card{padding:22px}
+  .g2{grid-template-columns:1fr}
+  .prev-grid{grid-template-columns:1fr}
+  .actions{flex-direction:column-reverse}
+  .btn{width:100%;justify-content:center}
+  .mactions{flex-direction:column-reverse}
+  .mactions .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+</div>
+
+<nav>
+  <div class="logo">CUPOD</div>
+  <div class="nav-tag">Advisor Portal</div>
+</nav>
+
+<main class="wrap">
+
+  <header class="hero rev">
+    <div class="badge">NEW STUDENT REGISTRATION</div>
+    <h1>Add a new <em>CUPOD</em><br>student.</h1>
+    <p class="hero-sub">Fill in the student's details. The ID is auto-generated and the record is saved instantly to the master sheet.</p>
+  </header>
+
+  <section class="card rev">
+    <form id="form" novalidate>
+
+      <div class="fsec">
+        <h2 class="stitle"><span class="snum">01</span>Personal Info</h2>
+        <div class="g2">
+          <div class="field">
+            <label for="studentName">Student Name <span class="req">*</span></label>
+            <input type="text" id="studentName" required maxlength="80" autocomplete="name" placeholder="e.g. Sara Kaddoura"/>
+            <div class="err" id="e-studentName"></div>
+          </div>
+          <div class="field">
+            <label for="phone">Phone <span class="req">*</span></label>
+            <input type="tel" id="phone" required maxlength="30" autocomplete="tel" placeholder="+961 70 000 000"/>
+            <div class="err" id="e-phone"></div>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" maxlength="120" autocomplete="email" placeholder="student@example.com"/>
+            <div class="err" id="e-email"></div>
+          </div>
+          <div class="field">
+            <label for="enrollDate">Enrollment Date <span class="req">*</span></label>
+            <input type="date" id="enrollDate" required/>
+            <div class="err" id="e-enrollDate"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fsec">
+        <h2 class="stitle"><span class="snum">02</span>Course & Payment</h2>
+        <div class="g2">
+          <div class="field">
+            <label for="coursePrice">Course Price (USD) <span class="req">*</span></label>
+            <input type="number" id="coursePrice" required min="0" max="10000" value="350"/>
+            <div class="err" id="e-coursePrice"></div>
+          </div>
+          <div class="field">
+            <label for="firstPayment">First Payment (USD)</label>
+            <input type="number" id="firstPayment" min="0" max="10000" value="0"/>
+            <div class="err" id="e-firstPayment"></div>
+            <div class="hint">Leave 0 if not paid yet.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview">
+        <div class="prev-head">
+          <span class="prev-lbl">Record Preview</span>
+          <span class="prev-id" id="prevId">CU-XXXXX</span>
+        </div>
+        <div class="prev-grid">
+          <div><span class="pk">Price:</span><span class="pv" id="pvTotal">$0.00</span></div>
+          <div><span class="pk">Paid:</span><span class="pv" id="pvPaid">$0.00</span></div>
+          <div><span class="pk">Balance:</span><span class="pv" id="pvBal">$0.00</span></div>
+          <div><span class="pk">Access until:</span><span class="pv" id="pvAccess">—</span></div>
+        </div>
+      </div>
+
+      <!-- DEBUG BOX: shows what was sent + what the server replied -->
+      <div class="debug" id="debugBox">
+        <div class="debug-title">🔍 Debug Log</div>
+        <div id="debugText"></div>
+      </div>
+
+      <div class="actions">
+        <button type="reset" class="btn btn-g" id="resetBtn">Clear</button>
+        <button type="submit" class="btn btn-p" id="submitBtn">
+          <span class="lbl">Save student</span>
+          <span class="spin"></span>
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <footer class="rev">
+    <span>CUPOD · Online English Communication Academy</span>
+    <a id="sheetLink" href="#" target="_blank" rel="noopener">Open master sheet ↗</a>
+  </footer>
+
+</main>
+
+<div class="toast" id="toast" aria-live="polite">
+  <div class="t-icon" id="tIcon">✓</div>
+  <div><div class="t-title" id="tTitle"></div><div class="t-msg" id="tMsg"></div></div>
+</div>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="mbg" id="mbg"></div>
+  <div class="mcard">
+    <div class="mcheck">✓</div>
+    <h3>Student saved!</h3>
+    <div class="mdetails" id="mdetails"></div>
+    <div class="mactions">
+      <button class="btn btn-g" id="anotherBtn">Add another</button>
+      <button class="btn btn-p" id="closeBtn">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+//  👇 STEP 1: PASTE YOUR APPS SCRIPT URL BETWEEN THE QUOTES BELOW
+// ================================================================
+const APPS_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+
+// ================================================================
+//  👇 STEP 2: PASTE YOUR GOOGLE SHEET URL BETWEEN THE QUOTES BELOW
+// ================================================================
+const SHEET_URL = 'PASTE_YOUR_GOOGLE_SHEET_URL_HERE';
+
+// ================================================================
+//  DO NOT EDIT ANYTHING BELOW THIS LINE
+// ================================================================
+const ACCESS_DAYS = 90;
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Set today's date
+  const t = new Date();
+  document.getElementById('enrollDate').value =
+    t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
+
+  // Sheet link
+  const sl = document.getElementById('sheetLink');
+  if (SHEET_URL && !SHEET_URL.includes('PASTE')) sl.href = SHEET_URL;
+  else sl.style.display = 'none';
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('vis')), {threshold:.05});
+  document.querySelectorAll('.rev').forEach(el => obs.observe(el));
+
+  // Live preview
+  ['coursePrice','firstPayment','enrollDate'].forEach(id =>
+    document.getElementById(id).addEventListener('input', updatePreview));
+  updatePreview();
+
+  // Field validation on blur/input
+  document.getElementById('form').querySelectorAll('input').forEach(inp => {
+    inp.addEventListener('blur',  () => checkField(inp));
+    inp.addEventListener('input', () => inp.classList.contains('bad') && checkField(inp));
+  });
+
+  // Clear button
+  document.getElementById('resetBtn').addEventListener('click', () => setTimeout(() => {
+    document.getElementById('coursePrice').value = '350';
+    document.getElementById('firstPayment').value = '0';
+    document.querySelectorAll('input').forEach(i => i.classList.remove('bad'));
+    document.querySelectorAll('.err').forEach(e => { e.textContent=''; e.classList.remove('on'); });
+    hideDebug();
+    updatePreview();
+  }, 0));
+
+  // Modal close
+  document.getElementById('closeBtn').addEventListener('click', closeModal);
+  document.getElementById('mbg').addEventListener('click', closeModal);
+  document.getElementById('anotherBtn').addEventListener('click', () => {
+    closeModal();
+    document.getElementById('form').reset();
+    setTimeout(() => {
+      document.getElementById('coursePrice').value = '350';
+      document.getElementById('firstPayment').value = '0';
+      document.getElementById('studentName').focus();
+      updatePreview(); hideDebug();
+    }, 0);
+  });
+  document.addEventListener('keydown', e => e.key === 'Escape' && closeModal());
+
+  // Submit
+  document.getElementById('form').addEventListener('submit', handleSubmit);
+});
+
+// ---- preview ----
+function updatePreview() {
+  const price   = parseFloat(document.getElementById('coursePrice').value) || 0;
+  const paid    = parseFloat(document.getElementById('firstPayment').value) || 0;
+  const dateStr = document.getElementById('enrollDate').value;
+  document.getElementById('pvTotal').textContent  = '$' + price.toFixed(2);
+  document.getElementById('pvPaid').textContent   = '$' + paid.toFixed(2);
+  document.getElementById('pvBal').textContent    = '$' + Math.max(0, price - paid).toFixed(2);
+  if (dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    d.setDate(d.getDate() + ACCESS_DAYS);
+    document.getElementById('pvAccess').textContent = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  } else {
+    document.getElementById('pvAccess').textContent = '—';
+  }
+}
+
+// ---- validation ----
+function checkField(inp) {
+  const id  = inp.id;
+  const val = inp.value.trim();
+  const err = document.getElementById('e-' + id);
+  let msg = '';
+
+  if (inp.required && !val)                                                  msg = 'Required';
+  else if (id==='studentName' && val && val.length < 2)                     msg = 'Name too short';
+  else if (id==='phone' && (val.match(/\d/g)||[]).length < 6)               msg = 'Enter a valid phone number';
+  else if (id==='email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) msg = 'Invalid email';
+  else if (id==='coursePrice' && (isNaN(parseFloat(val))||parseFloat(val)<0)) msg = 'Must be a positive number';
+  else if (id==='firstPayment' && val) {
+    const pay = parseFloat(val), price = parseFloat(document.getElementById('coursePrice').value)||0;
+    if (isNaN(pay)||pay<0)   msg = 'Must be a positive number';
+    else if (pay > price)    msg = 'Cannot exceed course price';
+  }
+
+  if (msg) {
+    inp.classList.add('bad');
+    if (err) { err.textContent = msg; err.classList.add('on'); }
+    return false;
+  }
+  inp.classList.remove('bad');
+  if (err) { err.textContent = ''; err.classList.remove('on'); }
+  return true;
+}
+
+function checkAll() {
+  let ok=true, first=null;
+  document.getElementById('form').querySelectorAll('input').forEach(inp => {
+    if (!checkField(inp)) { if(!first) first=inp; ok=false; }
+  });
+  if (first) first.focus();
+  return ok;
+}
+
+// ---- submit ----
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  if (!checkAll()) { toast('err','Fix the errors','Check the highlighted fields.'); return; }
+
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('PASTE')) {
+    showDebug('❌ APPS_SCRIPT_URL is not set in the HTML file.\n\nOpen index.html and replace:\n  PASTE_YOUR_APPS_SCRIPT_URL_HERE\nwith your real Apps Script /exec URL.');
+    toast('err','Not configured','Paste your Apps Script URL inside index.html');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  const data = {
+    action:       'addStudent',
+    studentName:  document.getElementById('studentName').value.trim(),
+    email:        document.getElementById('email').value.trim(),
+    phone:        document.getElementById('phone').value.trim(),
+    coursePrice:  String(parseFloat(document.getElementById('coursePrice').value)||0),
+    firstPayment: String(parseFloat(document.getElementById('firstPayment').value)||0),
+    enrollDate:   document.getElementById('enrollDate').value,
+    accessDays:   String(ACCESS_DAYS),
+  };
+
+  const fullURL = APPS_SCRIPT_URL + '?' + new URLSearchParams(data).toString();
+
+  showDebug('📤 Sending request...\nURL: ' + fullURL.slice(0,100) + '...\n\nData:\n' + JSON.stringify(data,null,2));
+
+  try {
+    const res  = await fetch(fullURL, { method:'GET', redirect:'follow' });
+    const text = await res.text();
+
+    showDebug(
+      '📤 Sent to:\n' + fullURL.slice(0,100) + '...\n\n' +
+      '📦 Data sent:\n' + JSON.stringify(data,null,2) + '\n\n' +
+      '📥 Server replied:\n' + text
+    );
+
+    let result;
+    try { result = JSON.parse(text); }
+    catch { throw new Error('Server did not return JSON.\nRaw response: ' + text.slice(0,200)); }
+
+    if (result.status === 'success') {
+      showModal(result, data);
+      toast('ok','Saved! ' + result.studentId, data.studentName + ' added to the sheet.');
+    } else {
+      throw new Error(result.message || 'Script returned an error');
+    }
+
+  } catch (err) {
+    console.error(err);
+    showDebug(
+      '📤 Tried:\n' + fullURL.slice(0,100) + '...\n\n' +
+      '📦 Data:\n' + JSON.stringify(data,null,2) + '\n\n' +
+      '❌ Error: ' + err.message
+    );
+    toast('err', 'Could not save', err.message);
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+// ---- debug ----
+function showDebug(msg) {
+  const box = document.getElementById('debugBox');
+  document.getElementById('debugText').textContent = msg;
+  box.classList.add('show');
+}
+function hideDebug() {
+  document.getElementById('debugBox').classList.remove('show');
+}
+
+// ---- modal ----
+function showModal(result, data) {
+  const price = parseFloat(data.coursePrice)||0;
+  const paid  = parseFloat(data.firstPayment)||0;
+  const d     = new Date(data.enrollDate + 'T00:00:00');
+  d.setDate(d.getDate() + ACCESS_DAYS);
+  document.getElementById('mdetails').innerHTML =
+    '<div class="mid">' + esc(result.studentId) + '</div>' +
+    '<div><strong>' + esc(data.studentName) + '</strong></div>' +
+    '<div>Phone: ' + esc(data.phone) + '</div>' +
+    '<div>Enrolled: ' + esc(data.enrollDate) + '</div>' +
+    '<div>Price: $' + price.toFixed(2) + ' · Paid: $' + paid.toFixed(2) + ' · Balance: $' + (price-paid).toFixed(2) + '</div>' +
+    '<div>Access until: ' + d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + '</div>';
+  document.getElementById('modal').classList.add('show');
+}
+function closeModal() { document.getElementById('modal').classList.remove('show'); }
+
+// ---- toast ----
+let _tt;
+function toast(type, title, msg) {
+  clearTimeout(_tt);
+  const t = document.getElementById('toast');
+  t.classList.remove('show','et');
+  if (type==='err') t.classList.add('et');
+  document.getElementById('tIcon').textContent  = type==='err' ? '!' : '✓';
+  document.getElementById('tTitle').textContent = title;
+  document.getElementById('tMsg').textContent   = msg;
+  requestAnimationFrame(() => t.classList.add('show'));
+  _tt = setTimeout(() => t.classList.remove('show'), 5000);
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
