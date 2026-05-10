@@ -3,108 +3,203 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CUPOD — Student Registration</title>
+<title>CUPOD — Advisor Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --green:#1DB954;--green-light:#24e066;
-  --black:#0a0a0a;--dark:#111;--dark2:#1a1a1a;--dark3:#232323;
+  --green:#1DB954;--gl:#24e066;--black:#0a0a0a;--dark2:#1a1a1a;--dark3:#232323;
   --line:rgba(255,255,255,0.08);--line2:rgba(255,255,255,0.15);
-  --white:#f5f5f0;--gray1:#c9c9c4;--gray2:#888;--gray3:#555;
-  --red:#ff5a5a;--radius:12px;--radius-lg:18px;
+  --white:#f5f5f0;--g1:#c9c9c4;--g2:#888;--g3:#555;
+  --red:#ff5a5a;--blue:#2C7BE5;--bl:#4d94ff;--r:12px;--rl:18px;
 }
 html{scroll-behavior:smooth}
-body{background:var(--black);color:var(--white);font-family:'DM Sans',system-ui,sans-serif;font-size:16px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',system-ui,sans-serif;
+  font-size:16px;line-height:1.6;min-height:100vh;overflow-x:hidden}
 .bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.18}
 .o1{width:500px;height:500px;background:var(--green);top:-150px;right:-150px;animation:f1 22s ease-in-out infinite}
 .o2{width:400px;height:400px;background:#1a8c3f;bottom:-120px;left:-120px;animation:f2 26s ease-in-out infinite}
 @keyframes f1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,40px)}}
 @keyframes f2{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,-30px)}}
-nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid var(--line);background:rgba(10,10,10,.7);backdrop-filter:blur(12px)}
+
+/* NAV */
+nav{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;
+  padding:20px 40px;border-bottom:1px solid var(--line);background:rgba(10,10,10,.7);backdrop-filter:blur(12px)}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--green)}
-.nav-tag{font-size:11px;font-weight:700;letter-spacing:.18em;color:var(--gray2);text-transform:uppercase}
-.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 24px 80px}
-.hero{margin-bottom:40px}
-.badge{display:inline-block;background:var(--green);color:var(--black);font-size:10px;font-weight:900;letter-spacing:.18em;padding:6px 14px;border-radius:4px;margin-bottom:20px}
-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,88px);line-height:.95;margin-bottom:16px}
+.nav-tag{font-size:11px;font-weight:700;letter-spacing:.18em;color:var(--g2);text-transform:uppercase}
+
+/* TABS */
+.tabs-bar{position:relative;z-index:1;display:flex;gap:4px;max-width:860px;margin:32px auto 0;padding:0 24px}
+.tab-btn{font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.06em;
+  padding:11px 24px;border-radius:10px 10px 0 0;border:1px solid transparent;border-bottom:none;
+  cursor:pointer;transition:all .2s;text-transform:uppercase}
+.tab-btn.tadd{background:rgba(29,185,84,.1);color:var(--green);border-color:rgba(29,185,84,.2)}
+.tab-btn.tadd.active{background:var(--dark2);border-color:var(--line2)}
+.tab-btn.tpay{background:rgba(44,123,229,.1);color:var(--blue);border-color:rgba(44,123,229,.2)}
+.tab-btn.tpay.active{background:var(--dark2);border-color:var(--line2)}
+.tab-btn:not(.active):hover{opacity:.75}
+
+/* WRAP */
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 24px 80px}
+.panel{background:var(--dark2);border:1px solid var(--line2);
+  border-radius:0 12px 18px 18px;padding:40px;
+  box-shadow:0 24px 80px -24px rgba(0,0,0,.5)}
+.panel.hidden{display:none}
+
+/* HERO */
+.hero{margin-bottom:32px}
+.badge{display:inline-block;font-size:10px;font-weight:900;letter-spacing:.18em;
+  padding:6px 14px;border-radius:4px;margin-bottom:16px}
+.bg{background:var(--green);color:var(--black)}
+.bb{background:var(--blue);color:#fff}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,7vw,72px);line-height:.95;margin-bottom:14px}
 h1 em{color:var(--green);font-style:normal}
-.hero-sub{color:var(--gray1);font-size:17px;font-weight:300;max-width:520px;line-height:1.65}
-.card{background:var(--dark2);border:1px solid var(--line);border-radius:var(--radius-lg);padding:40px;box-shadow:0 24px 80px -24px rgba(0,0,0,.5)}
-.fsec{margin-bottom:32px}
-.stitle{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gray1);text-transform:uppercase;display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:20px}
-.snum{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:rgba(29,185,84,.12);color:var(--green);border:1px solid rgba(29,185,84,.3);border-radius:8px;font-size:11px;font-weight:900;font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+h1 em.b{color:var(--blue)}
+.sub{color:var(--g1);font-size:15px;font-weight:300;max-width:520px;line-height:1.65}
+
+/* SECTIONS */
+.fsec{margin-bottom:28px}
+.stitle{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--g1);text-transform:uppercase;
+  display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.sn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;
+  background:rgba(29,185,84,.12);color:var(--green);border:1px solid rgba(29,185,84,.3);
+  border-radius:8px;font-size:11px;font-weight:900;font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+.sn.b{background:rgba(44,123,229,.12);color:var(--blue);border-color:rgba(44,123,229,.3)}
+
+/* FIELDS */
 .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 20px}
 .field{display:flex;flex-direction:column;gap:6px}
-label{font-size:13px;font-weight:500;color:var(--gray1)}
-.req{color:var(--green);margin-left:2px}
-input{background:var(--dark3);border:1px solid var(--line);border-radius:var(--radius);padding:13px 16px;color:var(--white);font-family:inherit;font-size:15px;outline:none;width:100%;transition:border-color .2s,box-shadow .2s}
-input::placeholder{color:var(--gray3)}
+label{font-size:13px;font-weight:500;color:var(--g1)}
+.rq{color:var(--green);margin-left:2px}
+.rqb{color:var(--blue);margin-left:2px}
+input{background:var(--dark3);border:1px solid var(--line);border-radius:var(--r);
+  padding:13px 16px;color:var(--white);font-family:inherit;font-size:15px;outline:none;width:100%;
+  transition:border-color .2s,box-shadow .2s}
+input::placeholder{color:var(--g3)}
 input:focus{border-color:var(--green);background:var(--black);box-shadow:0 0 0 3px rgba(29,185,84,.12)}
+input.fb:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(44,123,229,.12)}
 input.bad{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,90,90,.1)}
 input::-webkit-calendar-picker-indicator{filter:invert(1) brightness(.8);cursor:pointer}
-.hint{font-size:12px;color:var(--gray3);margin-top:2px}
-.err{font-size:12px;color:var(--red);min-height:0;max-height:0;overflow:hidden;transition:max-height .25s,margin .2s}
-.err.on{max-height:28px;margin-top:2px}
-.preview{background:linear-gradient(135deg,rgba(29,185,84,.07),rgba(29,185,84,.02));border:1px solid rgba(29,185,84,.2);border-radius:var(--radius);padding:18px 22px;margin:24px 0 28px}
-.prev-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.prev-lbl{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--gray2);text-transform:uppercase}
-.prev-id{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--green)}
-.prev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 20px}
-.pk{font-size:12px;color:var(--gray2);margin-right:4px}
+.hint{font-size:12px;color:var(--g3);margin-top:2px}
+.ferr{font-size:12px;color:var(--red);min-height:0;max-height:0;overflow:hidden;transition:max-height .25s}
+.ferr.on{max-height:28px;margin-top:2px}
+
+/* PREVIEW */
+.preview{background:linear-gradient(135deg,rgba(29,185,84,.07),rgba(29,185,84,.02));
+  border:1px solid rgba(29,185,84,.2);border-radius:var(--r);padding:18px 22px;margin:20px 0 24px}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.pl{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--g2);text-transform:uppercase}
+.pid{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--green)}
+.pg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 20px}
+.pk{font-size:12px;color:var(--g2);margin-right:4px}
 .pv{font-size:14px;font-weight:700;color:var(--white)}
+
+/* LOOKUP BOX */
+.lbox{background:rgba(44,123,229,.05);border:1px solid rgba(44,123,229,.2);
+  border-radius:var(--r);padding:20px;margin-bottom:24px}
+.lrow{display:flex;gap:10px;align-items:flex-end}
+.lrow .field{flex:1}
+.lbtn{font-family:inherit;font-size:13px;font-weight:700;padding:13px 20px;
+  background:var(--blue);color:#fff;border:none;border-radius:var(--r);
+  cursor:pointer;white-space:nowrap;transition:background .2s,transform .12s;flex-shrink:0}
+.lbtn:hover{background:var(--bl);transform:translateY(-1px)}
+.lbtn:disabled{opacity:.6;cursor:not-allowed}
+.sfound{margin-top:14px;padding:14px 16px;background:rgba(29,185,84,.08);
+  border:1px solid rgba(29,185,84,.25);border-radius:10px;font-size:14px;line-height:1.8;display:none}
+.sfound.show{display:block}
+.sfname{font-weight:700;color:var(--white);font-size:15px}
+.sfbal{color:var(--green);font-weight:700}
+.sfno{margin-top:14px;padding:12px 16px;background:rgba(255,90,90,.08);
+  border:1px solid rgba(255,90,90,.2);border-radius:10px;font-size:13px;color:#ff8080;display:none}
+.sfno.show{display:block}
+
+/* SLOTS */
+.slots{display:flex;gap:6px;margin-top:8px}
+.slot{width:28px;height:6px;border-radius:3px;background:var(--dark3);border:1px solid var(--line2)}
+.slot.used{background:var(--green)}
+.slot.next{background:rgba(44,123,229,.5);border-color:var(--blue)}
+
+/* ACTIONS */
 .actions{display:flex;justify-content:flex-end;gap:12px;margin-top:24px}
-.btn{font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.04em;padding:14px 28px;border-radius:var(--radius);cursor:pointer;border:none;transition:transform .12s,background .2s,opacity .2s;display:inline-flex;align-items:center;gap:8px}
+.btn{font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.04em;padding:14px 28px;
+  border-radius:var(--r);cursor:pointer;border:none;
+  transition:transform .12s,background .2s,opacity .2s;display:inline-flex;align-items:center;gap:8px}
 .btn:disabled{cursor:not-allowed;opacity:.7}
-.btn-p{background:var(--green);color:var(--black)}
-.btn-p:hover:not(:disabled){background:var(--green-light);transform:translateY(-1px)}
-.btn-g{background:transparent;color:var(--gray1);border:1px solid var(--line2)}
+.btn-g{background:transparent;color:var(--g1);border:1px solid var(--line2)}
 .btn-g:hover{background:var(--dark3);color:var(--white)}
-.spin{display:none;width:14px;height:14px;border:2px solid rgba(0,0,0,.2);border-top-color:#000;border-radius:50%;animation:spin .8s linear infinite}
+.btn-green{background:var(--green);color:var(--black)}
+.btn-green:hover:not(:disabled){background:var(--gl);transform:translateY(-1px)}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover:not(:disabled){background:var(--bl);transform:translateY(-1px)}
+.spin{display:none;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+.btn-green .spin{border-color:rgba(0,0,0,.2);border-top-color:#000}
 .btn.loading .spin{display:inline-block}
 .btn.loading .lbl{opacity:.7}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* DEBUG BOX — shows exactly what was sent and received */
-.debug{background:rgba(255,200,0,.06);border:1px solid rgba(255,200,0,.25);border-radius:10px;padding:14px 16px;margin-top:16px;font-size:12px;color:#ffd060;line-height:1.85;font-family:monospace;white-space:pre-wrap;word-break:break-all;display:none}
+/* DEBUG */
+.debug{background:rgba(255,200,0,.06);border:1px solid rgba(255,200,0,.25);border-radius:10px;
+  padding:14px 16px;margin-top:16px;font-size:12px;color:#ffd060;line-height:1.85;
+  font-family:monospace;white-space:pre-wrap;word-break:break-all;display:none}
 .debug.show{display:block}
-.debug-title{font-size:11px;font-weight:700;letter-spacing:.14em;color:#ffd060;text-transform:uppercase;margin-bottom:8px}
 
-footer{margin-top:36px;padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--gray2)}
+footer{position:relative;z-index:1;max-width:860px;margin:24px auto 0;padding:0 24px 60px;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--g2)}
 footer a{color:var(--green);text-decoration:none;font-weight:500}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(120%);background:var(--dark2);border:1px solid var(--line2);border-radius:var(--radius);box-shadow:0 16px 60px rgba(0,0,0,.5);padding:14px 20px 14px 16px;display:flex;gap:14px;align-items:center;min-width:280px;z-index:1000;transition:transform .35s cubic-bezier(.2,.9,.3,1.2),opacity .25s;opacity:0}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(120%);
+  background:var(--dark2);border:1px solid var(--line2);border-radius:var(--r);
+  box-shadow:0 16px 60px rgba(0,0,0,.5);padding:14px 20px 14px 16px;
+  display:flex;gap:14px;align-items:center;min-width:280px;z-index:9999;
+  transition:transform .35s cubic-bezier(.2,.9,.3,1.2),opacity .25s;opacity:0}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .toast.et{border-color:rgba(255,90,90,.4)}
-.t-icon{width:30px;height:30px;background:var(--green);color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;font-size:15px}
-.toast.et .t-icon{background:var(--red);color:#fff}
-.t-title{font-weight:700;font-size:14px}
-.t-msg{font-size:13px;color:var(--gray1)}
+.ti{width:30px;height:30px;background:var(--green);color:#000;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;font-size:15px}
+.toast.et .ti{background:var(--red);color:#fff}
+.tt{font-weight:700;font-size:14px}
+.tm{font-size:13px;color:var(--g1)}
+
+/* MODAL */
 .modal{position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;padding:24px}
-.modal.show{display:flex;animation:mfade .3s ease}
-@keyframes mfade{from{opacity:0}to{opacity:1}}
-.mbg{position:absolute;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px)}
-.mcard{position:relative;background:var(--dark2);border:1px solid var(--line2);border-radius:var(--radius-lg);padding:40px;max-width:460px;width:100%;text-align:center;animation:mpop .35s cubic-bezier(.2,.9,.3,1.2)}
-@keyframes mpop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
-.mcheck{width:72px;height:72px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:#000;font-size:36px;font-weight:900;animation:cpop .5s cubic-bezier(.2,.9,.3,1.2)}
-@keyframes cpop{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
-.mcard h3{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;margin-bottom:16px}
-.mdetails{background:var(--dark3);border-radius:var(--radius);padding:16px;margin-bottom:24px;text-align:left;font-size:14px;line-height:1.9;color:var(--gray1)}
-.mdetails strong{color:var(--white)}
-.mid{color:var(--green);font-weight:700;font-size:16px}
-.mactions{display:flex;gap:10px;justify-content:center}
-.rev{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
-.rev.vis{opacity:1;transform:none}
+.modal.show{display:flex;animation:mf .3s ease}
+@keyframes mf{from{opacity:0}to{opacity:1}}
+.mbd{position:absolute;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px)}
+.mc{position:relative;background:var(--dark2);border:1px solid var(--line2);
+  border-radius:var(--rl);padding:40px;max-width:460px;width:100%;text-align:center;
+  animation:mp .35s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes mp{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.mck{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;font-size:36px;font-weight:900;animation:cp .5s cubic-bezier(.2,.9,.3,1.2)}
+.mck.gr{background:var(--green);color:#000}
+.mck.bl{background:var(--blue);color:#fff}
+@keyframes cp{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.mc h3{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;margin-bottom:16px}
+.md{background:var(--dark3);border-radius:var(--r);padding:16px;margin-bottom:24px;
+  text-align:left;font-size:14px;line-height:1.9;color:var(--g1)}
+.md strong{color:var(--white)}
+.mid{font-weight:700;font-size:15px}
+.mid.gr{color:var(--green)}
+.mid.bl{color:var(--blue)}
+.ma{display:flex;gap:10px;justify-content:center}
+
 @media(max-width:700px){
   nav{padding:14px 18px}
-  .wrap{padding:36px 16px 60px}
-  .card{padding:22px}
+  .tabs-bar{padding:0 16px;margin-top:20px}
+  .tab-btn{padding:8px 14px;font-size:12px}
+  .wrap{padding:0 16px 60px}
+  .panel{padding:22px;border-radius:0 10px 16px 16px}
   .g2{grid-template-columns:1fr}
-  .prev-grid{grid-template-columns:1fr}
+  .pg{grid-template-columns:1fr}
   .actions{flex-direction:column-reverse}
   .btn{width:100%;justify-content:center}
-  .mactions{flex-direction:column-reverse}
-  .mactions .btn{width:100%}
+  .lrow{flex-direction:column}
+  .lbtn{width:100%}
+  .ma{flex-direction:column-reverse}
+  .ma .btn{width:100%}
 }
 </style>
 </head>
@@ -120,351 +215,461 @@ footer a{color:var(--green);text-decoration:none;font-weight:500}
   <div class="nav-tag">Advisor Portal</div>
 </nav>
 
-<main class="wrap">
+<!-- TABS -->
+<div class="tabs-bar">
+  <button class="tab-btn tadd active" id="tabAdd" onclick="switchTab('add')">➕ Add New Student</button>
+  <button class="tab-btn tpay"        id="tabPay" onclick="switchTab('pay')">💰 Record Payment</button>
+</div>
 
-  <header class="hero rev">
-    <div class="badge">NEW STUDENT REGISTRATION</div>
-    <h1>Add a new <em>CUPOD</em><br>student.</h1>
-    <p class="hero-sub">Fill in the student's details. The ID is auto-generated and the record is saved instantly to the master sheet.</p>
-  </header>
+<div class="wrap">
 
-  <section class="card rev">
-    <form id="form" novalidate>
+  <!-- ══════════════════════════════
+       TAB 1: ADD NEW STUDENT
+       ══════════════════════════════ -->
+  <div class="panel" id="panelAdd">
+    <div class="hero">
+      <div class="badge bg">NEW STUDENT REGISTRATION</div>
+      <h1>Add a new <em>CUPOD</em><br>student.</h1>
+      <p class="sub">Fill in the details below. The ID is auto-generated and saved instantly to the master sheet. The form clears automatically after each save.</p>
+    </div>
 
+    <form id="addForm" novalidate>
       <div class="fsec">
-        <h2 class="stitle"><span class="snum">01</span>Personal Info</h2>
+        <h2 class="stitle"><span class="sn">01</span>Personal Info</h2>
         <div class="g2">
           <div class="field">
-            <label for="studentName">Student Name <span class="req">*</span></label>
-            <input type="text" id="studentName" required maxlength="80" autocomplete="name" placeholder="e.g. Sara Kaddoura"/>
-            <div class="err" id="e-studentName"></div>
+            <label for="sName">Student Name <span class="rq">*</span></label>
+            <input type="text" id="sName" required maxlength="80" autocomplete="name" placeholder="e.g. Sara Kaddoura"/>
+            <div class="ferr" id="e-sName"></div>
           </div>
           <div class="field">
-            <label for="phone">Phone <span class="req">*</span></label>
-            <input type="tel" id="phone" required maxlength="30" autocomplete="tel" placeholder="+961 70 000 000"/>
-            <div class="err" id="e-phone"></div>
+            <label for="sPhone">Phone <span class="rq">*</span></label>
+            <input type="tel" id="sPhone" required maxlength="30" autocomplete="tel" placeholder="+961 70 000 000"/>
+            <div class="ferr" id="e-sPhone"></div>
           </div>
           <div class="field">
-            <label for="email">Email</label>
-            <input type="email" id="email" maxlength="120" autocomplete="email" placeholder="student@example.com"/>
-            <div class="err" id="e-email"></div>
+            <label for="sEmail">Email</label>
+            <input type="email" id="sEmail" maxlength="120" autocomplete="email" placeholder="student@example.com"/>
+            <div class="ferr" id="e-sEmail"></div>
           </div>
           <div class="field">
-            <label for="enrollDate">Enrollment Date <span class="req">*</span></label>
-            <input type="date" id="enrollDate" required/>
-            <div class="err" id="e-enrollDate"></div>
+            <label for="sDate">Enrollment Date <span class="rq">*</span></label>
+            <input type="date" id="sDate" required/>
+            <div class="ferr" id="e-sDate"></div>
           </div>
         </div>
       </div>
 
       <div class="fsec">
-        <h2 class="stitle"><span class="snum">02</span>Course & Payment</h2>
+        <h2 class="stitle"><span class="sn">02</span>Course & Payment</h2>
         <div class="g2">
           <div class="field">
-            <label for="coursePrice">Course Price (USD) <span class="req">*</span></label>
-            <input type="number" id="coursePrice" required min="0" max="10000" value="350"/>
-            <div class="err" id="e-coursePrice"></div>
+            <label for="sPrice">Course Price (USD) <span class="rq">*</span></label>
+            <input type="number" id="sPrice" required min="0" max="10000" value="350"/>
+            <div class="ferr" id="e-sPrice"></div>
           </div>
           <div class="field">
-            <label for="firstPayment">First Payment (USD)</label>
-            <input type="number" id="firstPayment" min="0" max="10000" value="0"/>
-            <div class="err" id="e-firstPayment"></div>
+            <label for="sPay">First Payment (USD)</label>
+            <input type="number" id="sPay" min="0" max="10000" value="0"/>
+            <div class="ferr" id="e-sPay"></div>
             <div class="hint">Leave 0 if not paid yet.</div>
           </div>
         </div>
       </div>
 
       <div class="preview">
-        <div class="prev-head">
-          <span class="prev-lbl">Record Preview</span>
-          <span class="prev-id" id="prevId">CU-XXXXX</span>
-        </div>
-        <div class="prev-grid">
-          <div><span class="pk">Price:</span><span class="pv" id="pvTotal">$0.00</span></div>
-          <div><span class="pk">Paid:</span><span class="pv" id="pvPaid">$0.00</span></div>
-          <div><span class="pk">Balance:</span><span class="pv" id="pvBal">$0.00</span></div>
-          <div><span class="pk">Access until:</span><span class="pv" id="pvAccess">—</span></div>
+        <div class="ph"><span class="pl">Record Preview</span><span class="pid">CU-XXXXX</span></div>
+        <div class="pg">
+          <div><span class="pk">Price:</span><span class="pv" id="pvT">$0.00</span></div>
+          <div><span class="pk">Paid:</span><span class="pv" id="pvP">$0.00</span></div>
+          <div><span class="pk">Balance:</span><span class="pv" id="pvB">$0.00</span></div>
+          <div><span class="pk">Access until:</span><span class="pv" id="pvA">—</span></div>
         </div>
       </div>
 
-      <!-- DEBUG BOX: shows what was sent + what the server replied -->
-      <div class="debug" id="debugBox">
-        <div class="debug-title">🔍 Debug Log</div>
-        <div id="debugText"></div>
-      </div>
+      <div class="debug" id="dbAdd"></div>
 
       <div class="actions">
-        <button type="reset" class="btn btn-g" id="resetBtn">Clear</button>
-        <button type="submit" class="btn btn-p" id="submitBtn">
-          <span class="lbl">Save student</span>
-          <span class="spin"></span>
+        <button type="button" class="btn btn-g" onclick="clearAdd()">Clear</button>
+        <button type="submit" class="btn btn-green" id="btnAdd">
+          <span class="lbl">Save student</span><span class="spin"></span>
         </button>
       </div>
-
     </form>
-  </section>
+  </div>
 
-  <footer class="rev">
-    <span>CUPOD · Online English Communication Academy</span>
-    <a id="sheetLink" href="#" target="_blank" rel="noopener">Open master sheet ↗</a>
-  </footer>
+  <!-- ══════════════════════════════
+       TAB 2: RECORD PAYMENT
+       ══════════════════════════════ -->
+  <div class="panel hidden" id="panelPay">
+    <div class="hero">
+      <div class="badge bb">RECORD A PAYMENT</div>
+      <h1>Add a <em class="b">payment</em><br>to a student.</h1>
+      <p class="sub">Enter the student ID to look them up, then record their payment amount and date.</p>
+    </div>
 
-</main>
+    <!-- STEP 1: LOOKUP -->
+    <div class="lbox">
+      <h2 class="stitle"><span class="sn b">01</span>Find the Student</h2>
+      <div class="lrow">
+        <div class="field">
+          <label for="lkId">Student ID</label>
+          <input type="text" id="lkId" class="fb" placeholder="e.g. CU00045" maxlength="20"/>
+        </div>
+        <button type="button" class="lbtn" id="lkBtn" onclick="lookupStudent()">Look up →</button>
+      </div>
+      <div class="sfound" id="sfound"></div>
+      <div class="sfno"   id="sfno">No student found with that ID. Check and try again.</div>
+    </div>
 
-<div class="toast" id="toast" aria-live="polite">
-  <div class="t-icon" id="tIcon">✓</div>
-  <div><div class="t-title" id="tTitle"></div><div class="t-msg" id="tMsg"></div></div>
+    <!-- STEP 2: PAYMENT DETAILS (shown after lookup) -->
+    <div id="payForm" style="display:none">
+      <div class="fsec">
+        <h2 class="stitle"><span class="sn b">02</span>Payment Details</h2>
+        <div class="g2">
+          <div class="field">
+            <label for="pAmt">Amount (USD) <span class="rqb">*</span></label>
+            <input type="number" id="pAmt" class="fb" required min="1" max="10000" placeholder="e.g. 150"/>
+            <div class="ferr" id="e-pAmt"></div>
+          </div>
+          <div class="field">
+            <label for="pDate">Payment Date <span class="rqb">*</span></label>
+            <input type="date" id="pDate" class="fb" required/>
+            <div class="ferr" id="e-pDate"></div>
+          </div>
+        </div>
+        <div style="margin-top:14px">
+          <div class="hint" style="font-size:13px;color:var(--g1);margin-bottom:6px">Payment slot:</div>
+          <div class="slots">
+            <div class="slot" id="sl1"></div>
+            <div class="slot" id="sl2"></div>
+            <div class="slot" id="sl3"></div>
+          </div>
+          <div class="hint" style="margin-top:6px" id="slHint"></div>
+        </div>
+      </div>
+
+      <div class="debug" id="dbPay"></div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-g" onclick="clearPay()">Cancel</button>
+        <button type="button" class="btn btn-blue" id="btnPay" onclick="submitPayment()">
+          <span class="lbl">Record payment</span><span class="spin"></span>
+        </button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<div class="modal" id="modal" aria-hidden="true">
-  <div class="mbg" id="mbg"></div>
-  <div class="mcard">
-    <div class="mcheck">✓</div>
-    <h3>Student saved!</h3>
-    <div class="mdetails" id="mdetails"></div>
-    <div class="mactions">
-      <button class="btn btn-g" id="anotherBtn">Add another</button>
-      <button class="btn btn-p" id="closeBtn">Done</button>
+<footer>
+  <span>CUPOD · Online English Communication Academy</span>
+  <a id="sheetLink" href="https://docs.google.com/spreadsheets/d/1c5PS0vxg0dJYa8DAupnONGgP_cOnYeWA8XIiCJ7zcsw/edit" target="_blank" rel="noopener">Open master sheet ↗</a>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast" aria-live="polite">
+  <div class="ti" id="ti">✓</div>
+  <div><div class="tt" id="tt"></div><div class="tm" id="tm"></div></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="mbd" onclick="closeModal()"></div>
+  <div class="mc">
+    <div class="mck" id="mck">✓</div>
+    <h3 id="mh"></h3>
+    <div class="md" id="md"></div>
+    <div class="ma">
+      <button class="btn btn-g" id="mab" onclick="doAnother()">Add another</button>
+      <button class="btn" id="mcb" onclick="closeModal()">Done</button>
     </div>
   </div>
 </div>
 
 <script>
-// ================================================================
-//  👇 STEP 1: PASTE YOUR APPS SCRIPT URL BETWEEN THE QUOTES BELOW
-// ================================================================
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuyEQHX8Ug23815842E3OxxhWMEA9fo0_HSaOFOLU2N4sTUtnC45fngJLEHkQqrQ/exec';
-
-// ================================================================
-//  👇 STEP 2: PASTE YOUR GOOGLE SHEET URL BETWEEN THE QUOTES BELOW
-// ================================================================
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1c5PS0vxg0dJYa8DAupnONGgP_cOnYeWA8XIiCJ7zcsw/edit';
-
-// ================================================================
-//  DO NOT EDIT ANYTHING BELOW THIS LINE
-// ================================================================
+// ── YOUR CONFIG ────────────────────────────────────────────
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuyEQHX8Ug23815842E3OxxhWMEA9fo0_HSaOFOLU2N4sTUtnC45fngJLEHkQqrQ/exec';
 const ACCESS_DAYS = 90;
+// ──────────────────────────────────────────────────────────
 
+let foundStudent = null;
+let afterModal   = null;
+
+// ── INIT ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-
-  // Set today's date
-  const t = new Date();
-  document.getElementById('enrollDate').value =
-    t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
-
-  // Sheet link
-  const sl = document.getElementById('sheetLink');
-  if (SHEET_URL && !SHEET_URL.includes('PASTE')) sl.href = SHEET_URL;
-  else sl.style.display = 'none';
-
-  // Scroll reveal
-  const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('vis')), {threshold:.05});
-  document.querySelectorAll('.rev').forEach(el => obs.observe(el));
-
-  // Live preview
-  ['coursePrice','firstPayment','enrollDate'].forEach(id =>
-    document.getElementById(id).addEventListener('input', updatePreview));
+  setToday('sDate');
+  setToday('pDate');
+  ['sPrice','sPay','sDate'].forEach(id => document.getElementById(id).addEventListener('input', updatePreview));
   updatePreview();
-
-  // Field validation on blur/input
-  document.getElementById('form').querySelectorAll('input').forEach(inp => {
-    inp.addEventListener('blur',  () => checkField(inp));
-    inp.addEventListener('input', () => inp.classList.contains('bad') && checkField(inp));
+  document.getElementById('addForm').querySelectorAll('input').forEach(inp => {
+    inp.addEventListener('blur',  () => vf(inp));
+    inp.addEventListener('input', () => inp.classList.contains('bad') && vf(inp));
   });
-
-  // Clear button
-  document.getElementById('resetBtn').addEventListener('click', () => setTimeout(() => {
-    document.getElementById('coursePrice').value = '350';
-    document.getElementById('firstPayment').value = '0';
-    document.querySelectorAll('input').forEach(i => i.classList.remove('bad'));
-    document.querySelectorAll('.err').forEach(e => { e.textContent=''; e.classList.remove('on'); });
-    hideDebug();
-    updatePreview();
-  }, 0));
-
-  // Modal close
-  document.getElementById('closeBtn').addEventListener('click', closeModal);
-  document.getElementById('mbg').addEventListener('click', closeModal);
-  document.getElementById('anotherBtn').addEventListener('click', () => {
-    closeModal();
-    document.getElementById('form').reset();
-    setTimeout(() => {
-      document.getElementById('coursePrice').value = '350';
-      document.getElementById('firstPayment').value = '0';
-      document.getElementById('studentName').focus();
-      updatePreview(); hideDebug();
-    }, 0);
-  });
-  document.addEventListener('keydown', e => e.key === 'Escape' && closeModal());
-
-  // Submit
-  document.getElementById('form').addEventListener('submit', handleSubmit);
+  document.getElementById('addForm').addEventListener('submit', handleAdd);
+  document.getElementById('lkId').addEventListener('keydown', e => e.key==='Enter' && lookupStudent());
+  document.addEventListener('keydown', e => e.key==='Escape' && closeModal());
 });
 
-// ---- preview ----
-function updatePreview() {
-  const price   = parseFloat(document.getElementById('coursePrice').value) || 0;
-  const paid    = parseFloat(document.getElementById('firstPayment').value) || 0;
-  const dateStr = document.getElementById('enrollDate').value;
-  document.getElementById('pvTotal').textContent  = '$' + price.toFixed(2);
-  document.getElementById('pvPaid').textContent   = '$' + paid.toFixed(2);
-  document.getElementById('pvBal').textContent    = '$' + Math.max(0, price - paid).toFixed(2);
-  if (dateStr) {
-    const d = new Date(dateStr + 'T00:00:00');
-    d.setDate(d.getDate() + ACCESS_DAYS);
-    document.getElementById('pvAccess').textContent = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  } else {
-    document.getElementById('pvAccess').textContent = '—';
-  }
-}
-
-// ---- validation ----
-function checkField(inp) {
-  const id  = inp.id;
-  const val = inp.value.trim();
-  const err = document.getElementById('e-' + id);
-  let msg = '';
-
-  if (inp.required && !val)                                                  msg = 'Required';
-  else if (id==='studentName' && val && val.length < 2)                     msg = 'Name too short';
-  else if (id==='phone' && (val.match(/\d/g)||[]).length < 6)               msg = 'Enter a valid phone number';
-  else if (id==='email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) msg = 'Invalid email';
-  else if (id==='coursePrice' && (isNaN(parseFloat(val))||parseFloat(val)<0)) msg = 'Must be a positive number';
-  else if (id==='firstPayment' && val) {
-    const pay = parseFloat(val), price = parseFloat(document.getElementById('coursePrice').value)||0;
-    if (isNaN(pay)||pay<0)   msg = 'Must be a positive number';
-    else if (pay > price)    msg = 'Cannot exceed course price';
-  }
-
-  if (msg) {
-    inp.classList.add('bad');
-    if (err) { err.textContent = msg; err.classList.add('on'); }
-    return false;
-  }
-  inp.classList.remove('bad');
-  if (err) { err.textContent = ''; err.classList.remove('on'); }
-  return true;
-}
-
-function checkAll() {
-  let ok=true, first=null;
-  document.getElementById('form').querySelectorAll('input').forEach(inp => {
-    if (!checkField(inp)) { if(!first) first=inp; ok=false; }
+// ── TABS ──────────────────────────────────────────────────
+function switchTab(t) {
+  ['add','pay'].forEach(x => {
+    document.getElementById('tab'+cap(x)).classList.toggle('active', x===t);
+    document.getElementById('panel'+cap(x)).classList.toggle('hidden', x!==t);
   });
-  if (first) first.focus();
-  return ok;
+}
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+// ── PREVIEW ───────────────────────────────────────────────
+function updatePreview() {
+  const p = parseFloat(document.getElementById('sPrice').value)||0;
+  const a = parseFloat(document.getElementById('sPay').value)||0;
+  const d = document.getElementById('sDate').value;
+  document.getElementById('pvT').textContent = '$'+p.toFixed(2);
+  document.getElementById('pvP').textContent = '$'+a.toFixed(2);
+  document.getElementById('pvB').textContent = '$'+Math.max(0,p-a).toFixed(2);
+  if(d){
+    const dt=new Date(d+'T00:00:00'); dt.setDate(dt.getDate()+ACCESS_DAYS);
+    document.getElementById('pvA').textContent=dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  } else document.getElementById('pvA').textContent='—';
 }
 
-// ---- submit ----
-async function handleSubmit(e) {
-  e.preventDefault();
-
-  if (!checkAll()) { toast('err','Fix the errors','Check the highlighted fields.'); return; }
-
-  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('PASTE')) {
-    showDebug('❌ APPS_SCRIPT_URL is not set in the HTML file.\n\nOpen index.html and replace:\n  PASTE_YOUR_APPS_SCRIPT_URL_HERE\nwith your real Apps Script /exec URL.');
-    toast('err','Not configured','Paste your Apps Script URL inside index.html');
-    return;
+// ── VALIDATION ────────────────────────────────────────────
+function vf(inp) {
+  const id=inp.id, val=inp.value.trim(), err=document.getElementById('e-'+id);
+  let msg='';
+  if(inp.required&&!val)                                                     msg='Required';
+  else if(id==='sName'&&val&&val.length<2)                                   msg='Name too short';
+  else if(id==='sPhone'&&(val.match(/\d/g)||[]).length<6)                    msg='Enter a valid phone number';
+  else if(id==='sEmail'&&val&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))      msg='Invalid email';
+  else if(id==='sPrice'&&(isNaN(parseFloat(val))||parseFloat(val)<0))        msg='Must be a positive number';
+  else if(id==='sPay'&&val){
+    const pay=parseFloat(val),price=parseFloat(document.getElementById('sPrice').value)||0;
+    if(isNaN(pay)||pay<0) msg='Must be positive'; else if(pay>price) msg='Cannot exceed course price';
   }
+  if(msg){ inp.classList.add('bad'); if(err){err.textContent=msg;err.classList.add('on');} return false; }
+  inp.classList.remove('bad'); if(err){err.textContent='';err.classList.remove('on');} return true;
+}
 
-  const btn = document.getElementById('submitBtn');
-  btn.classList.add('loading');
-  btn.disabled = true;
+function vAll() {
+  let ok=true,first=null;
+  document.getElementById('addForm').querySelectorAll('input').forEach(inp=>{
+    if(!vf(inp)){ if(!first)first=inp; ok=false; }
+  });
+  if(first)first.focus(); return ok;
+}
+
+// ── ADD STUDENT ───────────────────────────────────────────
+async function handleAdd(e) {
+  e.preventDefault();
+  if(!vAll()){ showToast('err','Fix the errors','Check highlighted fields.'); return; }
+
+  const btn = document.getElementById('btnAdd');
+  btn.classList.add('loading'); btn.disabled=true;
 
   const data = {
-    action:       'addStudent',
-    studentName:  document.getElementById('studentName').value.trim(),
-    email:        document.getElementById('email').value.trim(),
-    phone:        document.getElementById('phone').value.trim(),
-    coursePrice:  String(parseFloat(document.getElementById('coursePrice').value)||0),
-    firstPayment: String(parseFloat(document.getElementById('firstPayment').value)||0),
-    enrollDate:   document.getElementById('enrollDate').value,
-    accessDays:   String(ACCESS_DAYS),
+    action:'addStudent',
+    studentName: document.getElementById('sName').value.trim(),
+    email:       document.getElementById('sEmail').value.trim(),
+    phone:       document.getElementById('sPhone').value.trim(),
+    coursePrice: String(parseFloat(document.getElementById('sPrice').value)||0),
+    firstPayment:String(parseFloat(document.getElementById('sPay').value)||0),
+    enrollDate:  document.getElementById('sDate').value,
+    accessDays:  String(ACCESS_DAYS),
   };
 
-  const fullURL = APPS_SCRIPT_URL + '?' + new URLSearchParams(data).toString();
+  try {
+    const r = await call(data,'dbAdd');
+    if(r.status==='success'){
+      const price=parseFloat(data.coursePrice), paid=parseFloat(data.firstPayment);
+      // ✅ AUTO-CLEAR immediately after save
+      clearAdd();
+      showModal({
+        ck:'gr', title:'Student saved!',
+        html: '<div class="mid gr">'+esc(r.studentId)+'</div>'+
+              '<div><strong>'+esc(data.studentName)+'</strong></div>'+
+              '<div>Phone: '+esc(data.phone)+'</div>'+
+              '<div>Enrolled: '+esc(data.enrollDate)+'</div>'+
+              '<div>Price: $'+price.toFixed(2)+' · Paid: $'+paid.toFixed(2)+' · Balance: $'+(price-paid).toFixed(2)+'</div>',
+        aLabel:'Add another', aCls:'btn-g btn-green',
+        onA: ()=>{ closeModal(); document.getElementById('sName').focus(); }
+      });
+      showToast('ok','Saved! '+r.studentId, data.studentName+' added to sheet.');
+    } else throw new Error(r.message||'Script error');
+  } catch(err){ showToast('err','Could not save',err.message); }
+  finally { btn.classList.remove('loading'); btn.disabled=false; }
+}
 
-  showDebug('📤 Sending request...\nURL: ' + fullURL.slice(0,100) + '...\n\nData:\n' + JSON.stringify(data,null,2));
+function clearAdd() {
+  document.getElementById('addForm').reset();
+  setToday('sDate');
+  document.getElementById('sPrice').value='350';
+  document.getElementById('sPay').value='0';
+  document.getElementById('addForm').querySelectorAll('input').forEach(i=>i.classList.remove('bad'));
+  document.getElementById('addForm').querySelectorAll('.ferr').forEach(e=>{e.textContent='';e.classList.remove('on');});
+  document.getElementById('dbAdd').classList.remove('show');
+  updatePreview();
+}
+
+// ── LOOKUP STUDENT ────────────────────────────────────────
+async function lookupStudent() {
+  const rawId = document.getElementById('lkId').value.trim().toUpperCase();
+  const btn   = document.getElementById('lkBtn');
+  const sfEl  = document.getElementById('sfound');
+  const noEl  = document.getElementById('sfno');
+  const pfEl  = document.getElementById('payForm');
+
+  if(!rawId){ document.getElementById('lkId').classList.add('bad'); return; }
+  document.getElementById('lkId').classList.remove('bad');
+  sfEl.classList.remove('show'); noEl.classList.remove('show');
+  pfEl.style.display='none'; foundStudent=null;
+
+  btn.disabled=true; btn.textContent='Looking up...';
 
   try {
-    const res  = await fetch(fullURL, { method:'GET', redirect:'follow' });
-    const text = await res.text();
+    const r = await call({action:'lookupStudent', studentId:rawId}, 'dbPay');
+    if(r.status==='success'&&r.student){
+      foundStudent = r.student;
+      const s=r.student, used=parseInt(s.paymentSlotsFilled)||0, next=used+1;
 
-    showDebug(
-      '📤 Sent to:\n' + fullURL.slice(0,100) + '...\n\n' +
-      '📦 Data sent:\n' + JSON.stringify(data,null,2) + '\n\n' +
-      '📥 Server replied:\n' + text
-    );
+      // Update slot indicators
+      for(let i=1;i<=3;i++){
+        const el=document.getElementById('sl'+i);
+        el.className='slot';
+        if(i<=used) el.classList.add('used');
+        else if(i===next) el.classList.add('next');
+      }
+      document.getElementById('slHint').textContent =
+        used===3 ? '⚠️ All 3 slots are full.' : 'Payment '+next+' of 3 will be recorded.';
 
-    let result;
-    try { result = JSON.parse(text); }
-    catch { throw new Error('Server did not return JSON.\nRaw response: ' + text.slice(0,200)); }
+      sfEl.innerHTML =
+        '<div class="sfname">'+esc(s.name)+'</div>'+
+        '<div style="font-size:13px;color:var(--g1)">ID: <strong>'+esc(s.id)+'</strong> · Phone: '+esc(s.phone||'—')+'</div>'+
+        '<div style="font-size:13px;color:var(--g1)">Course: $'+parseFloat(s.coursePrice||0).toFixed(2)+
+          ' · Paid: $'+parseFloat(s.totalPaid||0).toFixed(2)+
+          ' · <span class="sfbal">Balance: $'+parseFloat(s.balance||0).toFixed(2)+'</span></div>'+
+        '<div style="font-size:13px;color:var(--g1)">Status: '+(s.status||'—')+'</div>';
+      sfEl.classList.add('show');
 
-    if (result.status === 'success') {
-      showModal(result, data);
-      toast('ok','Saved! ' + result.studentId, data.studentName + ' added to the sheet.');
-    } else {
-      throw new Error(result.message || 'Script returned an error');
-    }
+      if(used<3){ pfEl.style.display='block'; document.getElementById('pAmt').focus(); }
+      else showToast('err','All slots full','3 payments already recorded for this student.');
 
-  } catch (err) {
-    console.error(err);
-    showDebug(
-      '📤 Tried:\n' + fullURL.slice(0,100) + '...\n\n' +
-      '📦 Data:\n' + JSON.stringify(data,null,2) + '\n\n' +
-      '❌ Error: ' + err.message
-    );
-    toast('err', 'Could not save', err.message);
-  } finally {
-    btn.classList.remove('loading');
-    btn.disabled = false;
-  }
+    } else { noEl.classList.add('show'); foundStudent=null; }
+  } catch(err){ noEl.textContent='Error: '+err.message; noEl.classList.add('show'); }
+  finally { btn.disabled=false; btn.textContent='Look up →'; }
 }
 
-// ---- debug ----
-function showDebug(msg) {
-  const box = document.getElementById('debugBox');
-  document.getElementById('debugText').textContent = msg;
-  box.classList.add('show');
-}
-function hideDebug() {
-  document.getElementById('debugBox').classList.remove('show');
+// ── RECORD PAYMENT ────────────────────────────────────────
+async function submitPayment() {
+  if(!foundStudent){ showToast('err','No student','Look up a student first.'); return; }
+
+  const amtEl=document.getElementById('pAmt'), dtEl=document.getElementById('pDate');
+  const amtEr=document.getElementById('e-pAmt'), dtEr=document.getElementById('e-pDate');
+  let ok=true;
+
+  const amt=parseFloat(amtEl.value);
+  if(!amtEl.value||isNaN(amt)||amt<=0){
+    amtEl.classList.add('bad'); amtEr.textContent='Enter a valid amount'; amtEr.classList.add('on'); ok=false;
+  } else { amtEl.classList.remove('bad'); amtEr.textContent=''; amtEr.classList.remove('on'); }
+
+  if(!dtEl.value){
+    dtEl.classList.add('bad'); dtEr.textContent='Date is required'; dtEr.classList.add('on'); ok=false;
+  } else { dtEl.classList.remove('bad'); dtEr.textContent=''; dtEr.classList.remove('on'); }
+
+  if(!ok) return;
+
+  const btn=document.getElementById('btnPay');
+  btn.classList.add('loading'); btn.disabled=true;
+
+  try {
+    const r = await call({
+      action:'recordPayment',
+      studentId:   foundStudent.id,
+      amount:      String(amt),
+      paymentDate: dtEl.value,
+    }, 'dbPay');
+
+    if(r.status==='success'){
+      showModal({
+        ck:'bl', title:'Payment recorded!',
+        html: '<div class="mid bl">Payment '+r.slotUsed+' of 3</div>'+
+              '<div><strong>'+esc(foundStudent.name)+'</strong> ('+esc(foundStudent.id)+')</div>'+
+              '<div>Amount: <strong>$'+amt.toFixed(2)+'</strong></div>'+
+              '<div>Date: '+esc(dtEl.value)+'</div>'+
+              '<div>New balance: $'+parseFloat(r.newBalance||0).toFixed(2)+'</div>',
+        aLabel:'Record another', aCls:'btn-g',
+        onA: ()=>{ closeModal(); clearPay(); switchTab('pay'); }
+      });
+      showToast('ok','Payment saved!','$'+amt.toFixed(2)+' for '+foundStudent.name);
+      clearPay();
+    } else throw new Error(r.message||'Script error');
+  } catch(err){ showToast('err','Could not record',err.message); }
+  finally { btn.classList.remove('loading'); btn.disabled=false; }
 }
 
-// ---- modal ----
-function showModal(result, data) {
-  const price = parseFloat(data.coursePrice)||0;
-  const paid  = parseFloat(data.firstPayment)||0;
-  const d     = new Date(data.enrollDate + 'T00:00:00');
-  d.setDate(d.getDate() + ACCESS_DAYS);
-  document.getElementById('mdetails').innerHTML =
-    '<div class="mid">' + esc(result.studentId) + '</div>' +
-    '<div><strong>' + esc(data.studentName) + '</strong></div>' +
-    '<div>Phone: ' + esc(data.phone) + '</div>' +
-    '<div>Enrolled: ' + esc(data.enrollDate) + '</div>' +
-    '<div>Price: $' + price.toFixed(2) + ' · Paid: $' + paid.toFixed(2) + ' · Balance: $' + (price-paid).toFixed(2) + '</div>' +
-    '<div>Access until: ' + d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + '</div>';
+function clearPay() {
+  document.getElementById('lkId').value='';
+  document.getElementById('lkId').classList.remove('bad');
+  document.getElementById('sfound').classList.remove('show');
+  document.getElementById('sfno').classList.remove('show');
+  document.getElementById('payForm').style.display='none';
+  document.getElementById('pAmt').value='';
+  setToday('pDate');
+  document.getElementById('dbPay').classList.remove('show');
+  ['e-pAmt','e-pDate'].forEach(id=>{const e=document.getElementById(id);e.textContent='';e.classList.remove('on');});
+  ['pAmt','pDate'].forEach(id=>document.getElementById(id).classList.remove('bad'));
+  foundStudent=null;
+}
+
+// ── CALL APPS SCRIPT ─────────────────────────────────────
+async function call(data, dbId) {
+  const dbEl = document.getElementById(dbId);
+  const url  = SCRIPT_URL+'?'+new URLSearchParams(data).toString();
+  if(dbEl){ dbEl.textContent='📤 Sending...\n'+JSON.stringify(data,null,2); dbEl.classList.add('show'); }
+  const res  = await fetch(url,{method:'GET',redirect:'follow'});
+  const text = await res.text();
+  if(dbEl) dbEl.textContent='📤 Sent:\n'+JSON.stringify(data,null,2)+'\n\n📥 Reply:\n'+text;
+  let r; try{r=JSON.parse(text);}catch{throw new Error('Bad response: '+text.slice(0,150));}
+  return r;
+}
+
+// ── MODAL ─────────────────────────────────────────────────
+function showModal({ck,title,html,aLabel,aCls,onA}){
+  document.getElementById('mck').className='mck '+ck;
+  document.getElementById('mck').textContent='✓';
+  document.getElementById('mh').textContent=title;
+  document.getElementById('md').innerHTML=html;
+  const ab=document.getElementById('mab');
+  ab.textContent=aLabel; ab.className='btn '+(aCls||'btn-g');
+  afterModal=onA;
+  const cb=document.getElementById('mcb');
+  cb.className='btn '+(ck==='gr'?'btn-green':'btn-blue');
   document.getElementById('modal').classList.add('show');
 }
-function closeModal() { document.getElementById('modal').classList.remove('show'); }
+function doAnother(){ if(afterModal) afterModal(); }
+function closeModal(){ document.getElementById('modal').classList.remove('show'); }
 
-// ---- toast ----
+// ── TOAST ─────────────────────────────────────────────────
 let _tt;
-function toast(type, title, msg) {
+function showToast(type,title,msg){
   clearTimeout(_tt);
-  const t = document.getElementById('toast');
+  const t=document.getElementById('toast');
   t.classList.remove('show','et');
-  if (type==='err') t.classList.add('et');
-  document.getElementById('tIcon').textContent  = type==='err' ? '!' : '✓';
-  document.getElementById('tTitle').textContent = title;
-  document.getElementById('tMsg').textContent   = msg;
-  requestAnimationFrame(() => t.classList.add('show'));
-  _tt = setTimeout(() => t.classList.remove('show'), 5000);
+  if(type==='err') t.classList.add('et');
+  document.getElementById('ti').textContent=type==='err'?'!':'✓';
+  document.getElementById('tt').textContent=title;
+  document.getElementById('tm').textContent=msg;
+  requestAnimationFrame(()=>t.classList.add('show'));
+  _tt=setTimeout(()=>t.classList.remove('show'),5000);
 }
 
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+// ── HELPERS ───────────────────────────────────────────────
+function setToday(id){
+  const t=new Date();
+  document.getElementById(id).value=
+    t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
 }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 </script>
 </body>
 </html>
