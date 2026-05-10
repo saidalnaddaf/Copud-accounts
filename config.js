@@ -16,7 +16,7 @@ const CUPOD_CONFIG = {
   // 2. PASTE YOUR GOOGLE SHEET LINK HERE (used by the "Open master sheet" link)
   //    Example:
   //    SHEET_VIEW_URL: 'https://docs.google.com/spreadsheets/d/1abcDEF.../edit',
-  SHEET_VIEW_URL: 'https://docs.google.com/spreadsheets/d/1c5PS0vxg0dJYa8DAupnONGgP_cOnYeWA8XIiCJ7zcsw/edit?gid=0#gid=0',
+  SHEET_VIEW_URL: 'https://docs.google.com/spreadsheets/d/1c5PS0vxg0dJYa8DAupnONGgP_cOnYeWA8XIiCJ7zcsw/edit',
 
   // 3. ACCESS LENGTH IN DAYS (default 90 = 3 months)
   ACCESS_DAYS: 90,
