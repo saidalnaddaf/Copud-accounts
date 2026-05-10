@@ -1,16 +1,16 @@
 // ============================================================
-//  CUPOD APPS SCRIPT — UPDATED VERSION
+//  CUPOD APPS SCRIPT — v5
 //  Supports: addStudent, lookupStudent, recordPayment
 // ============================================================
 
-const SHEET_NAME = 'CUPOD Student Tracker';
+var SHEET_NAME = 'CUPOD Student Tracker';
 
 function doGet(e) {
   try {
     if (!e || !e.parameter || !e.parameter.action) {
       return respond({ status: 'ok', message: 'CUPOD script is live!' });
     }
-    const a = e.parameter.action;
+    var a = e.parameter.action;
     if (a === 'addStudent')    return respond(addStudent(e.parameter));
     if (a === 'lookupStudent') return respond(lookupStudent(e.parameter));
     if (a === 'recordPayment') return respond(recordPayment(e.parameter));
@@ -39,7 +39,7 @@ function addStudent(p) {
 
   var lastRow  = sheet.getLastRow();
   var nextRow  = lastRow + 1;
-  var studentId = 'CU' + pad(nextRow - 1, 5);
+  var studentId    = 'CU' + pad(nextRow - 1, 5);
   var coursePrice  = parseFloat(p.coursePrice)  || 0;
   var firstPayment = parseFloat(p.firstPayment) || 0;
   var accessDays   = parseInt(p.accessDays)     || 90;
@@ -73,51 +73,90 @@ function addStudent(p) {
 }
 
 // ============================================================
-//  LOOKUP STUDENT
+//  LOOKUP STUDENT — searches whole sheet, flexible matching
 // ============================================================
 function lookupStudent(p) {
-  if (!p.studentId) return { status: 'error', message: 'Student ID is required' };
+  if (!p.studentId || p.studentId.trim() === '')
+    return { status: 'error', message: 'Student ID is required' };
 
-  var sheet  = getSheet();
+  var sheet = getSheet();
   if (sheet.error) return sheet;
 
-  var idCol  = sheet.getRange('A2:A' + sheet.getLastRow()).getValues();
-  var targetId = p.studentId.trim().toUpperCase();
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) return { status: 'error', message: 'No students in the sheet yet.' };
 
-  for (var i = 0; i < idCol.length; i++) {
-    if (String(idCol[i][0]).toUpperCase() === targetId) {
-      var r    = i + 2; // +2 because data starts at row 2
-      var row  = sheet.getRange(r, 1, 1, 17).getValues()[0];
+  // Read ALL rows (skip row 1 which is header)
+  var allData = sheet.getRange(2, 1, lastRow - 1, 17).getValues();
 
-      // Count filled payment slots
-      var slots = 0;
-      if (row[5] !== '' && row[5] !== null) slots++;
-      if (row[7] !== '' && row[7] !== null) slots++;
-      if (row[9] !== '' && row[9] !== null) slots++;
+  var query = p.studentId.trim().toUpperCase().replace(/\s+/g, '');
 
-      var totalPaid = parseFloat(row[11]) || 0;
-      var balance   = parseFloat(row[12]) || 0;
-
-      return {
-        status: 'success',
-        student: {
-          id:                  String(row[0]),
-          name:                String(row[1]),
-          email:               String(row[2]),
-          phone:               String(row[3]),
-          coursePrice:         parseFloat(row[4]) || 0,
-          totalPaid:           totalPaid,
-          balance:             balance,
-          enrollDate:          row[13] ? Utilities.formatDate(new Date(row[13]), Session.getScriptTimeZone(), 'yyyy-MM-dd') : '',
-          status:              String(row[15] || ''),
-          paymentSlotsFilled:  slots,
-          rowNumber:           r,
-        }
-      };
+  // Try to find a match — check column A (Student ID)
+  for (var i = 0; i < allData.length; i++) {
+    var cellId = String(allData[i][0] || '').trim().toUpperCase().replace(/\s+/g, '');
+    if (cellId === '' ) continue;
+    if (cellId === query) {
+      return buildStudentResult(allData[i], i + 2); // +2: row 1 is header
     }
   }
 
-  return { status: 'error', message: 'Student ID "' + targetId + '" not found.' };
+  // No exact match — try partial match (in case user typed CU45 instead of CU00045)
+  for (var j = 0; j < allData.length; j++) {
+    var cid = String(allData[j][0] || '').trim().toUpperCase().replace(/\s+/g, '');
+    if (cid === '') continue;
+    // Strip leading zeros from both and compare
+    var stripped1 = cid.replace(/^CU0+/, 'CU');
+    var stripped2 = query.replace(/^CU0+/, 'CU');
+    if (stripped1 === stripped2) {
+      return buildStudentResult(allData[j], j + 2);
+    }
+  }
+
+  // Still not found — return helpful debug info
+  var sample = [];
+  for (var k = 0; k < Math.min(5, allData.length); k++) {
+    var sid = String(allData[k][0] || '').trim();
+    if (sid !== '') sample.push(sid);
+  }
+
+  return {
+    status: 'error',
+    message: 'Student ID "' + p.studentId.trim() + '" not found.\n' +
+             'Example IDs in your sheet: ' + (sample.join(', ') || 'none found') + '\n' +
+             'Total rows checked: ' + allData.length
+  };
+}
+
+function buildStudentResult(row, rowNumber) {
+  // Count filled payment slots (F=idx5, H=idx7, J=idx9)
+  var slots = 0;
+  if (row[5] !== '' && row[5] !== null && row[5] !== undefined) slots++;
+  if (row[7] !== '' && row[7] !== null && row[7] !== undefined) slots++;
+  if (row[9] !== '' && row[9] !== null && row[9] !== undefined) slots++;
+
+  var enrollVal = row[13];
+  var enrollStr = '';
+  try {
+    if (enrollVal && enrollVal !== '') {
+      enrollStr = Utilities.formatDate(new Date(enrollVal), Session.getScriptTimeZone(), 'yyyy-MM-dd');
+    }
+  } catch(e) { enrollStr = String(enrollVal || ''); }
+
+  return {
+    status: 'success',
+    student: {
+      id:                 String(row[0] || '').trim(),
+      name:               String(row[1] || '').trim(),
+      email:              String(row[2] || '').trim(),
+      phone:              String(row[3] || '').trim(),
+      coursePrice:        parseFloat(row[4]) || 0,
+      totalPaid:          parseFloat(row[11]) || 0,
+      balance:            parseFloat(row[12]) || 0,
+      enrollDate:         enrollStr,
+      status:             String(row[15] || '').trim(),
+      paymentSlotsFilled: slots,
+      rowNumber:          rowNumber,
+    }
+  };
 }
 
 // ============================================================
@@ -136,12 +175,11 @@ function recordPayment(p) {
   var sheet = getSheet();
   if (sheet.error) return sheet;
 
-  var r     = s.rowNumber;
-  var slots = s.paymentSlotsFilled;
+  var r      = s.rowNumber;
+  var slots  = s.paymentSlotsFilled;
   var amount = parseFloat(p.amount);
   var payDate = parseDate(p.paymentDate);
 
-  // Payment slots: F/G = slot1 (cols 6/7), H/I = slot2 (cols 8/9), J/K = slot3 (cols 10/11)
   var amtCol, dateCol, slotNum;
   if      (slots === 0) { amtCol=6;  dateCol=7;  slotNum=1; }
   else if (slots === 1) { amtCol=8;  dateCol=9;  slotNum=2; }
@@ -153,7 +191,6 @@ function recordPayment(p) {
   sheet.getRange(r, amtCol).setNumberFormat('"$"#,##0.00');
   sheet.getRange(r, dateCol).setNumberFormat('yyyy-mm-dd');
 
-  // Re-read balance after formula recalc (force recalc)
   SpreadsheetApp.flush();
   var newBalance = sheet.getRange(r, 13).getValue();
 
@@ -175,7 +212,8 @@ function getSheet() {
   var sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     var all = ss.getSheets().map(function(s){ return s.getName(); }).join(', ');
-    return { error: true, status: 'error', message: 'Sheet "'+SHEET_NAME+'" not found. Available: '+all };
+    return { error: true, status: 'error',
+             message: 'Sheet "'+SHEET_NAME+'" not found. Available tabs: '+all };
   }
   return sheet;
 }
@@ -206,24 +244,19 @@ function respond(data) {
 }
 
 // ============================================================
-//  TEST FUNCTIONS — run from Apps Script editor to verify
+//  TEST — run these from Apps Script editor to debug
 // ============================================================
-function testAddStudent() {
-  var r = addStudent({
-    studentName: 'TEST DELETE ME', email: 'test@test.com',
-    phone: '+961 70 000 000', coursePrice: '350', firstPayment: '100',
-    enrollDate: new Date().toISOString().slice(0,10), accessDays: '90'
-  });
-  Logger.log(JSON.stringify(r));
-}
-
 function testLookup() {
-  var r = lookupStudent({ studentId: 'CU00001' });
-  Logger.log(JSON.stringify(r, null, 2));
+  // This will show you what IDs are actually in your sheet
+  var sheet = getSheet();
+  var lastRow = sheet.getLastRow();
+  var ids = sheet.getRange(2, 1, Math.min(10, lastRow-1), 2).getValues();
+  Logger.log('First 10 rows (ID | Name):');
+  ids.forEach(function(r, i){ Logger.log((i+2)+': "'+r[0]+'" | "'+r[1]+'"'); });
 }
 
-function testRecordPayment() {
-  // First run testLookup() to find a real ID, then paste it below
-  var r = recordPayment({ studentId: 'CU00001', amount: '50', paymentDate: '2025-05-10' });
+function testLookupById() {
+  // Change CU00001 to a real ID from your sheet
+  var r = lookupStudent({ studentId: 'CU00001' });
   Logger.log(JSON.stringify(r, null, 2));
 }
