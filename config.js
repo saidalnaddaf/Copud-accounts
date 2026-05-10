@@ -11,7 +11,7 @@ const CUPOD_CONFIG = {
   //    (you'll get this in Setup Step 4)
   //    Example:
   //    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycb.../exec',
-  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyx0rj0M2KYCX5lgHpinMujOUOCgSbHzrl7f3RM5753f1L0CH6g7PiQly_-uPqgL0b2/exec',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwuyEQHX8Ug23815842E3OxxhWMEA9fo0_HSaOFOLU2N4sTUtnC45fngJLEHkQqrQ/exec',
 
   // 2. PASTE YOUR GOOGLE SHEET LINK HERE (used by the "Open master sheet" link)
   //    Example:
